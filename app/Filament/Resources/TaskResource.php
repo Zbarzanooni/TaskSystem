@@ -49,13 +49,23 @@ class TaskResource extends Resource
                 TextColumn::make('title'),
                 IconColumn::make('status')
                     ->icon(fn (string $state): string => match ($state) {
-                        Task::STATUS['open'] => 'heroicon-s-lock-open',
-                        Task::STATUS['closed'] => 'heroicon-s-lock-closed',
+                        Task::STATUS['open']     => 'heroicon-s-lock-open',
+                        Task::STATUS['closed']   => 'heroicon-s-lock-closed',
                         Task::STATUS['archived'] => 'heroicon-s-archive-box-arrow-down',
-                        default => 'gray',
+
                     }),
-                SelectColumn::make('priority')
-                    ->options(Task::STATUS),
+                IconColumn::make('priority')
+                    ->icon(fn (string $state): string => match ($state) {
+                        Task::PRIORITY['low']    => 'healthicons-o-low-level',
+                        Task::PRIORITY['medium'] => 'healthicons-f-medium-level',
+                        Task::PRIORITY['high']   => 'healthicons-o-high-level',
+
+                    })
+                ->color(fn (string $state): string => match ($state) {
+                    Task::PRIORITY['low']    => 'info',
+                    Task::PRIORITY['medium'] => 'warning',
+                    Task::PRIORITY['high']   => 'danger',
+                    }),
                 TextColumn::make('assignedTo.name')
 
             ])
